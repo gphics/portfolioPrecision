@@ -1,0 +1,121 @@
+
+#login{
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+    
+}
+
+
+.loginHero,.mainLogin{
+height: 100%;
+width:48%;
+margin: 5% 0 0 0;
+
+}
+.loginHero{
+    background-color: var(--secondary-color);
+}
+.authHero{
+    height:80%;
+    width:80%;
+    margin:20% 0 0 5%;
+
+}
+.authHero:hover{
+    transform: scale(1.05);
+}
+
+.mainLogin{
+    padding-top: 20%;
+    padding-left: 5%;
+}
+.loginFormHolder > h2{
+    font-family: ExtraBold;
+    text-transform: capitalize;
+    margin:0 0 5% 2%;
+    color: var(--accent-color);
+    height: 15%;
+}
+.loginFormHolder{
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+}
+.loginInputHolder, .loginNote{
+    width: 70%;
+    min-height: 80px;
+    margin:2%;
+}
+.loginInputHolder > label{
+    font-family:Bold;
+    text-transform: capitalize;
+    height: 20%;
+    margin-bottom: 5%;
+}
+.loginNote{
+    text-align: center;
+    font-family: Bold;
+}
+.authNote{
+    text-decoration: none;
+    color: var(--accent-color);
+    font-family: Bold;
+}
+.loginInput{
+    width:100%;
+    height:75%;
+    background-color: var(--primary-color);
+    border: none;
+    padding-left: 3%;
+    color: var(--secondary-color)
+}
+
+input[type="email"]:invalid{
+    background-color: red;
+}
+
+input:focus{
+    background-color: var(--accent-color);
+    border-radius:5px;
+    color: var(--primary-color)
+}
+#loginBtn{
+    padding-bottom: 5%;
+    font-size: 18px;
+    border-radius:0;
+    cursor: pointer;
+    width: 70%;
+    margin: 2%;
+}
+
+
+/*Media Query*/
+
+/*      */
+@media (max-width:700px){
+    
+    .loginHero{
+        display: none;
+    }
+    .authHero{
+        display: none;
+    }
+    .mainLogin{
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        margin: 0;
+        padding-left: 15%;
+    
+    }
+    .loginFormHolder{
+        /* background-color: red; */
+        height: 70%;
+        transform: translateY(-15%)
+    }
+    .loginInputHolder, #loginBtn, .loginNote{
+        width:80%
+    }
+   
+}

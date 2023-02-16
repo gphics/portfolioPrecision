@@ -1,0 +1,81 @@
+@import url(./LandingPage/LandingPage.css);
+@import url(./ErrorPage/error.css);
+@import url(./Authentication/login.css);
+@import url(./Authentication/register.css);
+@font-face {
+    font-family: Medium;
+    src: url(../Font/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: Bold;
+    src: url(../Font/Montserrat-Bold.ttf);
+}
+
+@font-face {
+    font-family: ExtraBoldItalics;
+    src: url(../Font/Montserrat-ExtraBoldItalic.ttf);
+}
+
+@font-face {
+    font-family: ExtraBold;
+    src: url(../Font/Montserrat-ExtraBold.ttf);
+}
+
+* {
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: Medium;
+    --primary-color: #000000;
+    --secondary-color: #EFEFEF;
+    --accent-color: #A74FFC;
+    color: var(--primary-color);
+    --trans: all .6s;
+    transition: var(--trans);
+}
+.flexColumn{
+    display: flex;
+    flex-direction: column;
+    
+}
+.flexRow{
+    display: flex;
+    flex-flow: row wrap;
+}
+h1, h3{
+    text-transform: capitalize;
+    font-family: ExtraBoldItalics;
+}
+h1:first-of-type,h3:first-of-type{
+    color:var(--accent-color)
+}
+
+.moveTo {
+    margin-top: 2%;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 5px;
+    text-transform: capitalize;
+    font-family: ExtraBoldItalics;
+    color: var(--secondary-color);
+    height: 50px;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: center;
+    width: 50%;
+    padding-top: 4%
+}
+.moveTo:hover{
+    transform: scale(1.03);
+    color: var(--primary-color)
+}
+body{
+    overflow-x: hidden;
+}
+
+@media (min-width:800px){
+    .moveTo{
+        padding-top: 2%;
+    }
+}

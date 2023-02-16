@@ -1,0 +1,226 @@
+#register{
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+}
+
+#regHero, .regFormHolder{
+    height: 100%;
+    width: 48%;
+}
+#regHero{
+    background-color: var(--secondary-color);
+    justify-content: space-between;
+}
+
+#regHero > img{
+    margin-top:20%;
+    margin-left: 5%;
+    width: 75%;
+    height: 75%;
+
+}
+
+.regFormHolder{
+    padding-top: 20%;
+}
+.regFormHolder h1{
+    margin-bottom: 5%;
+    font-family: ExtraBold;
+    margin-left: 2%;
+}
+.regInputHolder{
+    width: 70%;
+    min-height: 70px;
+    /* background-color: yellowgreen; */
+    margin: 2%;
+}
+.regFormHolder  label{
+    font-family: Bold;
+        text-transform: capitalize;
+        height: 25%;
+        margin-bottom: 1%;
+        /* background-color: pink; */
+}
+.regFormHolder input {    width: 100%;
+    height: 79%;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--secondary-color);
+    padding-left:5%;
+}
+.regInputHolder input[type="file"]{
+    color: var(--primary-color);
+    background-color: transparent;
+    padding: 0
+}
+.regInputHolder input:focus{
+    background-color: var(--accent-color);
+    border-radius:5px;
+    color: var(--primary-color)
+}
+#regBtn{
+    margin: 2%;
+    width: 70%;
+    padding-top: 2px;
+    border-radius: 0;
+}
+.regNote{
+    font-family: Bold;
+    margin: 10% 0 0;
+    width:70%;
+    text-align: center;
+}
+.regLink{
+    text-decoration: none;
+    font-family: Bold;
+    color: var(--accent-color)
+}
+.hideForm{
+    transform: scale(0) rotate(60deg);
+    opacity: 0;
+    width: 0;
+    height: 0;
+    display: none;
+}
+/*  Control Btn */
+
+/*      */
+
+.controlHolder {
+    width: 15%;
+    height: 100%;
+}
+.controlBtnHolder{
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    margin-left: 50%;
+}
+.controlSpan{
+    margin-left:40% ;
+    height: 20%;
+    width:12px;
+    background-color: var(--primary-color);
+    text-align: center;
+}
+.controlSpan:nth-child(2){
+    justify-content: space-between;
+    height: 25%;
+}
+.controlBtn{
+    border:none;
+    border-radius: 100%;
+    height: 20%;
+   cursor: pointer;
+    width: 45px;
+    height: 45px;
+    transform: translateX(-35%);
+    color: white;
+    background-color: var(--primary-color);
+}
+
+#controlOne{
+margin-top:-20%
+}
+#controlThree{
+    margin-bottom:-20%;
+} 
+.regFormSect3{
+    width:80%;
+    height:40%;
+    padding-left: 2%;
+    margin-bottom: 10%;
+    /* background-color: red; */
+}
+.regFormSect3 label{
+    height: 15%;
+    margin-bottom: 5%;
+}
+#regSelect{
+    width:100%;
+    height: 70%;
+    padding-left: 5%;
+    font-family: Bold;
+}
+#regSelect:focus{
+    background-color: var(--accent-color);
+}
+
+option{
+    color: var(--secondary-color);
+    font-family: Bold;
+    background-color: var(--primary-color);
+}
+
+/* Media Query*/
+
+/*      */
+#controlMobile{
+    display: none;
+}
+@media (max-width:700px){
+    #regHero{
+        display: none;
+
+    }
+    .regFormHolder{
+        width:100%;
+        padding-left: 10%;
+
+    }
+.regInputHolder, #regBtn {
+    width: 80%
+}
+#controlMobile{
+    display: block;
+    /* margin-top:1% */
+}
+.controlHolder{
+    /* background-color: red; */
+    height:20%;
+    width: 80%;
+    /* margin-bottom: 20px; */
+}
+#CONTROL{
+    width: 60%;
+    flex-direction: row;
+    margin: 0;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.controlSpan {
+    margin: 0;
+    width: 120%;
+    height: 10px;
+    padding: 0;
+   
+}
+.controlSpan:nth-child(2) {
+    flex-direction: row;
+    height: 10px;
+}
+/* .controlBtn{
+width:40px;
+height: 40px;
+} */
+#controlOne {
+    margin: 0;
+        transform: translate(-95%, -15px);
+}
+#controlTwo{
+    margin: 0;
+    transform: translate(-15px,-15px);
+}
+
+#controlThree {
+    margin: 0;
+    transform: translate(60%, -15px);
+}
+#regBtn{
+    margin-top: 4%;
+    height: 70px;
+}
+
+.regNote {width:80%}
+} 

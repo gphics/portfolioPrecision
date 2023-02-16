@@ -1,0 +1,33 @@
+.Error{
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    padding-left: 40%;
+}
+#ErrorTitle{
+    color: var(--primary-color);
+    margin-left: 5%;
+}
+#ErrorTitle + h4{
+    margin-left: 10%;
+    color: var(--primary-color);
+}
+#errorLink{
+    padding-top: 2%;
+}
+@media (max-width:700px){
+    .Error{
+        padding-left: 30%;
+    }
+    #ErrorTitle{
+        margin-left: 0;
+    }
+    #ErrorTitle + h4{
+        margin-left: 7%;
+    }
+    #errorLink{
+        margin-left: 6%;
+        width:55%;
+        padding-top:6%
+    }
+}
