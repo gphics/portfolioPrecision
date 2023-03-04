@@ -2,7 +2,13 @@
 @import url(./ErrorPage/error.css);
 @import url(./Authentication/login.css);
 @import url(./Authentication/register.css);
-@font-face {
+@import url(./Notification/notification.css);
+@import url(./LoadingSpinner/loading.css);
+@import url(./Dashboard/Dashboard.css);
+@import url(./ExamCreate/ExamCreate.css);
+@import url(./Profile/Profile.css);
+@import url(./Exams/myExams.css);
+ @font-face {
     font-family: Medium;
     src: url(../Font/Montserrat-Medium.ttf);
 }
@@ -34,21 +40,27 @@
     --trans: all .6s;
     transition: var(--trans);
 }
-.flexColumn{
+
+.flexColumn {
     display: flex;
     flex-direction: column;
-    
+
 }
-.flexRow{
+
+.flexRow {
     display: flex;
     flex-flow: row wrap;
 }
-h1, h3{
+
+h1,
+h3 {
     text-transform: capitalize;
     font-family: ExtraBoldItalics;
 }
-h1:first-of-type,h3:first-of-type{
-    color:var(--accent-color)
+
+h1:first-of-type,
+h3:first-of-type {
+    color: var(--accent-color)
 }
 
 .moveTo {
@@ -66,16 +78,18 @@ h1:first-of-type,h3:first-of-type{
     width: 50%;
     padding-top: 4%
 }
-.moveTo:hover{
+
+.moveTo:hover {
     transform: scale(1.03);
     color: var(--primary-color)
 }
-body{
+
+body {
     overflow-x: hidden;
 }
 
-@media (min-width:800px){
-    .moveTo{
+@media (min-width:800px) {
+    .moveTo {
         padding-top: 2%;
     }
 }

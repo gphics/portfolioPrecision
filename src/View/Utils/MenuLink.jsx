@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-function MenuLink({text, url, linkClass,action, activeLink=""}) {
+function MenuLink({text, url,holderClass, linkClass,action, activeLink=""}) {
   return (
-      <div className="menuLink">
+      <div className={"menulink " + holderClass}>
           
-          <NavLink to={url} style={{width: '500px'}} onClick={action} className={({isActive}) => isActive ? `${linkClass} ${activeLink}`: `${linkClass}`}>
+          <NavLink to={url} onClick={action} className={({isActive}) => isActive ? `${linkClass} ${activeLink}`: `${linkClass}`}>
               {text}
           </NavLink>
     </div>

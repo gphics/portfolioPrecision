@@ -1,0 +1,37 @@
+.Notification {
+    background-color: red;
+    width: 40vw;
+    height: 5vh;
+    position: absolute;
+    z-index: 99999999;
+    transform: translate(52vw);
+    margin: 10px 0;
+    color: var(--secondary-color);
+    padding-top:5px
+
+}
+
+#alert{
+    color: white;
+    text-align: center;
+}
+#regBtn{
+    cursor: pointer;
+}
+.Notification:hover {
+    
+    background-color: var(--accent-color);
+    color: var(--primary-color)
+}
+
+
+
+
+/*Media Query*/
+
+@media (max-width:700px) {
+    .Notification {
+        width: 70vw;
+        transform: translate(15vw);
+    }
+}

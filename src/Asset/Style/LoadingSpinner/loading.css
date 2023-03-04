@@ -1,0 +1,68 @@
+.loading{
+width: 80px;
+    height: 80px;
+    /* background-color: var(--secondary-color); */
+    position: absolute;
+    transform: translate(50vw, 10vh);
+    border-radius: 100%;
+    overflow: hidden;
+    animation-name: loading;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    z-index: 89999288;
+            
+}
+
+@keyframes loading {
+    0%{
+        width: 30px;
+            height: 30px;
+
+    }
+    50%{
+        width: 60px;
+        height: 60px;
+    }
+    100%{
+        box-shadow: 1px 1px 2px 2px var(--primary-color),
+         -1px -1px 2px 2px var(--primary-color)
+    }
+}
+
+.spinner{
+    width: 90%;
+    height: 90%;
+    /* background-color: green; */
+    border-radius: inherit;
+    margin: 5%;
+    animation-name: spinner;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    border: 5px solid var(--primary-color);
+    border-left-color: transparent;
+    border-left-color: transparent;
+     border-top-color: transparent;
+ 
+}
+.loading:hover, .spinner:hover{
+    animation-play-state: paused;
+}
+
+@keyframes spinner {
+    75% {
+        border-left-color: var(--primary-color);
+    }
+    100% {
+        transform: rotate(360deg);
+        border-top-color: var(--primary-color);
+    }
+ 
+}
+
+@media (max-width:700px){
+    #loading{
+    transform: translate(40vw, 5vh);
+    }
+}

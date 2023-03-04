@@ -12,6 +12,7 @@ function RegisterControl() {
             // // alert(typeof elem.dataset.tab)
             if (elem.dataset.tab === value) {
                 elem.classList.remove("hideForm")
+                document.querySelector("#regBtn").classList.add('hideForm')
                 if (elem.dataset.tab === '3') {
                     document.querySelector("#regBtn").classList.remove('hideForm')
                 }

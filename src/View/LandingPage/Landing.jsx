@@ -2,10 +2,10 @@ import React,{useEffect} from 'react'
 import PartOne from './PartOne'
 import PartThree from './PartThree'
 import PartTwo from './PartTwo'
-import { ControllerUtils } from '../../Controller'
+import {Intersection} from '../../Controller'
 // import LandingNavbar from './LandingNavbar'
 function Landing() {
-  const {Intersection} = ControllerUtils
+ 
 
   useEffect(() => {
     const partOne = document.querySelector("#partOne")

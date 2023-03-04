@@ -1,0 +1,88 @@
+
+#profile{
+    height: 100%;
+    flex: 1 1 auto;
+    padding: 2%
+}
+
+#profile h1{
+    font-family: ExtraBold;
+    text-transform: capitalize;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 3%;
+    height: 7%;
+    color: var(--accent-color)
+}
+
+.profileImage{
+height: 48%;
+margin-bottom: 2%;
+}
+
+select:disabled{
+    background-color: black;
+    filter: none
+}
+.profileImage img{
+    width: 300px;
+    height: 300px;
+    margin: 1% 30%;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px rgb(199, 188, 188);
+}
+.profileImage img:hover {
+    transform: scale(1.1);
+}
+.profileImage h5{
+    text-transform: capitalize;
+    margin:1% 0 1% 40%;
+}
+.profileInfo{
+    height: 35%;
+    /* background-color: red; */
+    justify-content: space-between;
+    padding:2%;
+}
+
+.profileInfo h5,h4 {
+    font-family: Bold;
+    color: var(--primary-color);
+    text-align: left;
+    text-transform: capitalize;
+}
+.infoField{
+    margin-bottom: 1%;
+    flex: 1 1 auto;
+    height: 10%;
+    justify-content: space-between;
+}
+.profileUpdateSect{
+    height: 5%;
+    overflow: hiddden;
+    flex: 1 1 auto;
+}
+#userUpdateBtn{
+    margin:0;
+    height: 90%;
+    width: 40%;
+    padding: 0
+
+}
+@media (min-width:900px){
+    .profileImage h5 {
+        margin-left: 35%
+    }
+        #userUpdateBtn {
+            width: 20%
+        }
+}
+
+@media (max-width:700px){
+    .profileImage img {
+        margin-left:10%;
+    }
+        .profileImage h5 {
+            margin-left: 25%;
+        }
+}
