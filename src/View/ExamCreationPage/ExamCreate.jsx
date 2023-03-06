@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input } from '../Utils'
 import { partOne } from './Utils'
 import { ExamForm } from '../Utils'
-import { IncreaseQuestion, DecreaseQuestion, changeInput, onRender } from '../../Model/ExamSlice'
+import { IncreaseQuestion, DecreaseQuestion, changeInput, onRender, fetchUpdateExam, updateExam } from '../../Model/ExamSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import shortUUID from 'short-uuid'
 import { FunctionsClient } from '@supabase/functions-js'
@@ -11,24 +11,26 @@ import { showNotification, supabase } from '../../Controller'
 import { createExam } from '../../Model/ExamSlice'
 import LoadingSpinner from '../Utils/LoadingSpinner'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 function ExamCre() {
+    const { examID } = useParams()
+    const isUpdate = examID ? true : false
     const [part, setPart] = useState(1)
     const [fileState, setFileState] = useState(null)
     const examState = useSelector(state => state.examSlice)
     const user_id = useSelector(state => state.userSlice.user.user_id)
     const examArr = examState.examCreate.Test
     const { isLoading, isRedirect } = useSelector(state => state.examSlice)
+    const { is_available } = examState.examCreate
     const dispatch = useDispatch()
     const [uploadQuestionImage, setUploadQuestionImage] = useState(false)
     const Navigate = useNavigate()
-    function ToggleAvailable(e) {
-        const { is_available: value } = examState.examCreate
+    function ToggleAvailable() {
         const field = 'is_available'
-        dispatch(changeInput({ value: !value, field }))
-        e.target.classList.toggle("exchangeRoll")
+        dispatch(changeInput({ value: !is_available, field }))
+    
     }
-
+  
     function onChangeHandler(e) {
         const value = e.target.value;
         const field = e.target.dataset.field
@@ -37,9 +39,16 @@ function ExamCre() {
 
 
     }
-
+    useEffect(() => {
+        if (isUpdate) {
+            setTimeout(() => {
+                alert("No need to re-upload another image for any image field that you have uploaded before unless you want to update the image.")
+            }, 5000)
+        }
+    },[])
     function fileHandler(e) {
-        const value = shortUUID.generate() + e.target.files[0].name
+        const {exam_img_name} = examState.examCreate
+        const value = isUpdate ? exam_img_name : shortUUID.generate() + e.target.files[0].name
         const field = 'exam_img_name'
 
         dispatch(changeInput({ value, field }))
@@ -52,9 +61,13 @@ function ExamCre() {
     }
 
     useEffect(() => {
+        if (isUpdate) {
+            dispatch(fetchUpdateExam(examID))
+            return;
+        }
         const id = shortUUID.generate()
-
         dispatch(onRender({ id, user_id }))
+        
     }, [])
     const Back = (e) => {
         e.preventDefault()
@@ -71,7 +84,14 @@ function ExamCre() {
     }
 
     async function uploadFile() {
+        if(fileState === null) return 'okay'
         const { value, file } = fileState
+        if (isUpdate) {
+            const { data, error } = await supabase.storage
+                .from("exam")
+                .update("folder/" + value, file)
+            return data
+        }
         const { data, error } = await supabase.storage
             .from("exam")
             .upload('folder/' + value, file)
@@ -80,6 +100,11 @@ function ExamCre() {
     function submitHandler(e) {
         e.preventDefault()
         const examImageUpload = uploadFile()
+        if (isUpdate && examImageUpload) {
+           
+            dispatch(updateExam())
+            return
+        }
         if (examImageUpload) {
             setUploadQuestionImage(true)
             dispatch(createExam())
@@ -96,7 +121,7 @@ function ExamCre() {
             {isLoading &&
             <LoadingSpinner customID="adjustLoading" />}
             <Notification  customID="examNotificationError"/>
-            {part === 1 ? < h1 className='examCreateA'>create exam</h1> :
+            {part === 1 ? < h1 className='examCreateA'>{isUpdate ? 'update': 'create'} exam</h1> :
                 <div className="changeAmount flexRow">
                     <button id="changeBtnA" onClick={() => {
                         dispatch(IncreaseQuestion())
@@ -127,7 +152,7 @@ function ExamCre() {
 
                             <h4>Available</h4>
                             <aside id="switch">
-                                <div className="roll" onClick={ToggleAvailable}></div>
+                                <div className={`roll ${is_available && 'exchangeRoll'}`} onClick={ToggleAvailable}></div>
                             </aside>
                         </div>
                     </div>
@@ -137,10 +162,10 @@ function ExamCre() {
 
                     <div id={part === 2 ? "examCreatePartTwo" : "hidePart"}>
                         {examArr.map((info, i) => {
-                            return <ExamForm uploadQuestionImage={uploadQuestionImage} index={i} key={i * 545} />
+                            return <ExamForm isUpdate={isUpdate} uploadQuestionImage={uploadQuestionImage} index={i} key={i * 545} />
                         })}
 
-                        <button id="btnCreate" type='submit' className="moveTo">Create</button>
+                        <button id="btnCreate" type='submit' className="moveTo"> {isUpdate ? 'update' : 'create'} </button>
                     </div>
 
 

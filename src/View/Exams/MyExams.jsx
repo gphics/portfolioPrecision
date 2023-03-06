@@ -11,19 +11,27 @@ function MyExam() {
   const isLoading = useSelector(state => state.examSlice.isLoading)
   const myExamSearch = useSelector(state => state.examSlice.myExamSearch)
   const place = window.location.pathname === '/allexams' ? true : false
-  console.log(place)
+  
   useEffect(() => {
-    if (place) {
-      
+    if (place) {  
       dispatch(getMyExam())
+
+      setTimeout(()=>{
+        dispatch(refreshUser())
+      },9000)
       return;
     }
     ///
-    dispatch(refreshUser())
+   
     dispatch(changeIsRedirect())
     dispatch(getMyExam())
 
-  }, [])
+      setTimeout(()=>{
+        dispatch(refreshUser())
+      },9000)
+
+
+  }, [state.currentExam])
   
   function handleChange(e) {
     if (place) {
@@ -50,7 +58,7 @@ function MyExam() {
       {/* section 2 */}
       <section id="myExamsListing">
         {place === true ? state.allExam.length !== 0 ? state.allExam.map(item => <ExamList key={item.exam_id}
-          {...item} />) : <h1 id='myExamNotFound'> Empty !!! </h1> : state.myExam.length !== 0 ? state.myExam.map(item => <ExamList key={item.id}  {...item} />) :
+          {...item} />) : <h1 id='myExamNotFound'> Empty !!! </h1> : state.myExam.length !== 0 ? state.myExam.map(item => <ExamList key={item.exam_id}  {...item} />) :
           <h1 id='myExamNotFound'> Empty !!! </h1>}
      
       </section>

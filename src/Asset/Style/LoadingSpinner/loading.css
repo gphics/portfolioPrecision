@@ -1,3 +1,13 @@
+#backdrop{
+    background-color: var(--secondary-color);
+    opacity: 0.5;
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999999999;
+}
 .loading{
 width: 80px;
     height: 80px;
@@ -11,6 +21,7 @@ width: 80px;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     z-index: 89999288;
+    opacity: 1;
             
 }
 

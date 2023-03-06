@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
-import { setIsChange} from '../../Model/userSlice'
+import { refreshUser, setIsChange} from '../../Model/userSlice'
 
 
 
@@ -16,6 +16,7 @@ function Profil() {
     { title: 'user ID', value: state.user_id },
     { title: 'fullname', value: state.fullname },
     { title: 'role', value: state.role },
+    { title: 'email', value: state.email },
     { title: 'password', value: state.password },
     { title: 'location', value: state.location },
     {title: 'contact', value: `0${state.contact}`}
@@ -23,6 +24,7 @@ function Profil() {
 
   useEffect(() => {
     dispatch(setIsChange()) 
+    dispatch(refreshUser())
   },[])
 
   const joinedDate = dayjs(state.created_at).toDate().toDateString()
@@ -37,8 +39,8 @@ function Profil() {
       <div className="profileInfo flexColumn">
         {profileContent.map((info, index) => {
           return <div className="infoField flexRow" key={index}>
-            <h5>{info.title}: </h5>
-            <h4> {info.value} </h4>
+            <h5 style={{textTransform:info.title === 'email' ? 'none' : 'capitalize'}}>{info.title}: </h5>
+            <h4 style={{textTransform:info.title === 'email' ? 'none' : 'capitalize'}}> {info.value} </h4>
           </div>
   }) 
         }

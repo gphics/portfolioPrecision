@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-
+    /* overflow-y: scroll; */
 
 }
 
@@ -224,13 +224,47 @@
     justify-content: space-between;
 }
 
-#sectionTwoList div {
-    background-color: greenyellow;
+.dashboardMyExam {
+    background-color: var(--secondary-color);
     width: 48%;
-    height: 100%
+    height: 80%;
+    margin: 1%;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: -1px -1px 5px #fffefe, 1px 1px 5px rgb(92, 90, 90);
 }
+.dashboardMyExam:hover{
+    transform: scale(1.02);
+}
+  .dashboardMyExamImg {
+      width: 100%;
+      height: 70%;
+  }
+  .dashboardMyExamNote{
+    background-color: #EFEFEF;
+    width: 100%;
+    height: 30%;
+    padding: 4%;
+  }
+  #dashboardNoExam{
+    width: 80%;
+    margin: 2% auto;
+    text-align: center;
+  }
+  #dashboardExamRegBtn{
+    width: 30%;
+    margin: 0 30% 40%;
+    padding-top: 2%;
+  }
+/* Media Queries */
 
-/* Mobile appearance */
+@media (min-width:900px){
+    #dashboardExamRegBtn {
+       padding: 1% 0 0;
+        margin: 0 35% 40%;
+        
+    }
+}
 
 @media (max-width:700px) {
     #main {
@@ -292,8 +326,17 @@
         height: 600px;
     }
 
-    #sectionTwoList div {
+    .dashboardMyExam {
+        text-decoration: none;
         height: 45%;
-        width: 100%
+        width: 95%;
+        margin: 2%;
+        flex: 1 1 auto;
     }
+        #dashboardExamRegBtn {
+            width: 50%;
+            margin: 0 25% 75%;
+            padding-top: 3%;
+        }
+  
 }

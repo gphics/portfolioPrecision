@@ -5,11 +5,11 @@ import { supabase } from '../../Controller'
 import { changeTest } from '../../Model/ExamSlice'
 
 
-function ExamFor({ index, uploadQuestionImage }) {
+function ExamFor({ index, uploadQuestionImage, isUpdate }) {
   const dispatch = useDispatch()
   const arr = useSelector(state => state.examSlice.examCreate.Test[index])
   const [fileState, setFileState] = useState(null)
-  const { optionA, optionB, optionC, optionD, answer, question } = arr
+  const { optionA, optionB, optionC, optionD, answer, question, question_img_name } = arr
 
   function validateAnswer() {
     const elem = document.querySelectorAll(".questionAnswer")
@@ -28,7 +28,13 @@ function ExamFor({ index, uploadQuestionImage }) {
 
   }
   async function upload() {
-    const {value, file} = fileState
+    const { value, file } = fileState
+    if (isUpdate) {
+      const { data, error } = await supabase.storage
+        .from("question")
+        .update('folder/' + value, file)
+      return
+    }
     const { data, error } = await supabase.storage
       .from("question")
       .upload('folder/' + value, file)
@@ -44,7 +50,7 @@ function ExamFor({ index, uploadQuestionImage }) {
     validateAnswer()
   }, [arr])
   function fileHandler(e) {
-    const value = shortUUID.generate()+e.target.files[0].name
+    const value = isUpdate && question_img_name !== '' ? question_img_name : shortUUID.generate()+e.target.files[0].name
     const field = 'question_img_name'
     const i = index
 

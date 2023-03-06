@@ -8,6 +8,7 @@
 @import url(./ExamCreate/ExamCreate.css);
 @import url(./Profile/Profile.css);
 @import url(./Exams/myExams.css);
+@import url(./Exams/SingleExam.css);
  @font-face {
     font-family: Medium;
     src: url(../Font/Montserrat-Medium.ttf);

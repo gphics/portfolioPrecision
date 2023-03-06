@@ -172,10 +172,13 @@ const user = createSlice({
             state.isLoading = false
             state.isChange = true
         }).addCase(refreshUser.pending, (state, action) => {
+            localStorage.removeItem("precision")
             state.isLoading = true
         }).addCase(refreshUser.fulfilled, (state, action) => {
             state.isLoading = false;
             state.user = action.payload
+            const item = JSON.stringify(action.payload)
+            localStorage.setItem("precision", item)
             
         })
 

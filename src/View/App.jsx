@@ -43,7 +43,7 @@ function App() {
           <Route path="myresults" element={<MyResults />} />
           <Route path="examcreate" element={<SharedExamLayout role={role} />}>
             <Route index element={<ExamCreate />} />
-          
+            <Route path=":examID" element={<ExamCreate/>} />
           </Route>
        </Route>
         <Route path="*" element={<Error/>} />
