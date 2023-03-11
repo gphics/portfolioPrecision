@@ -7,16 +7,20 @@ import { Shared, Dashboard } from './DashboardPage'
 import { useSelector } from 'react-redux'
 import { MyExams, SingleExam } from './Exams'
 import { Profile, SharedProfile} from './Profile'
-import { PastQuestions } from './PastQuestion'
 import { MyResults } from './Result'
 import { ExamCreate, SharedExamLayout } from './ExamCreationPage'
 import { SharedSpacing } from './Utils'
+import { ExamAnswering } from './ExamAnswering'
+import { supabase } from '../Controller'
+import { useEffect } from 'react'
+import EachResultOwner from './Result/EachResultOwner'
 
 function App() {
   const state = useSelector(state => state.userSlice.user)
   const user = state?.user_id
   const role = state?.role
-  const {isUpdate, isChange} = useSelector(state => state.userSlice)
+  const { isUpdate, isChange } = useSelector(state => state.userSlice)
+
   return (
     <BrowserRouter>
       <Routes>
@@ -27,6 +31,7 @@ function App() {
         </Route>
         <Route path="/" element={<Shared user={user} />}>
           <Route index element={<Dashboard />} />
+          <Route path="answerExam" element={<ExamAnswering/>} />
           <Route path="myexams" element={<SharedSpacing />} >
             <Route index element={<MyExams />} />
             <Route path=":examID" element={<SingleExam/>} />
@@ -39,8 +44,10 @@ function App() {
             <Route index element={<Profile/>} />
             <Route path="updateUser" element={<Register isChange={isChange} isUpdate={isUpdate} />} />
             </Route>
-          <Route path="pastquestions" element={<PastQuestions />} />
-          <Route path="myresults" element={<MyResults />} />
+          <Route path="myresults" element={<SharedSpacing />}>
+            <Route index element={<MyResults />} />
+            <Route path=":userID" element={<EachResultOwner/>} />
+          </Route>
           <Route path="examcreate" element={<SharedExamLayout role={role} />}>
             <Route index element={<ExamCreate />} />
             <Route path=":examID" element={<ExamCreate/>} />

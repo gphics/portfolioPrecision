@@ -101,7 +101,7 @@ function ExamCre() {
         e.preventDefault()
         const examImageUpload = uploadFile()
         if (isUpdate && examImageUpload) {
-           
+            setUploadQuestionImage(true)
             dispatch(updateExam())
             return
         }

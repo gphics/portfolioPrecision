@@ -1,0 +1,120 @@
+#examAnswering {
+    width: 75%;
+
+    flex: 1 1 auto;
+    height: 100%;
+    /* padding: 20% 5% */
+}
+
+.examAnsweringIntro {
+
+    width: 90%;
+    margin: 1% auto;
+    height: 8%;
+    padding-left: 3%;
+}
+
+#examAnsweringForm {
+    background-color: var(--secondary-color);
+    height: 70%;
+    width: 90%;
+    margin: 3% auto;
+   
+    border-radius: 10px;
+    box-shadow: 1px  1px 5px rgb(116, 111, 111);
+
+}
+.eachQuestionComponent{
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.hideEachExamQuestionComponent{
+    transform: scale(0);
+    opacity: 0;
+    display: none;
+    width: 0;
+    height: 0;
+}
+.answeringBtnHolder {
+    width: 100%;
+    height: 9%;
+    justify-content: space-between;
+    padding: 1%;
+    width: 90%;
+    margin: 1% auto;
+}
+
+.answeringBtnHolder button {
+    margin: 0;
+    padding: 0;
+    width: 40%;
+}
+
+.examQuestionHouse {
+    margin: 0 0 2% 0;
+    width: 100%;
+    height: 58%;
+    overflow: hidden;
+    justify-content: space-between;
+    flex: 1 1 auto;
+}
+
+.examQuestionHouse img {
+    width: 60%;
+    height: 60%;
+    margin: 1% auto;
+    flex: 0 0 auto;
+}
+.examQuestionHouse img:hover {
+    transform: scale(1.03);
+}
+.examQuestionHouse p {
+ overflow-y: scroll;
+ flex: 1 1 auto;
+ width: 100%;
+ padding-left: 2%;
+ text-align:left;
+ word-wrap: break-word;
+ font-size: 1em;
+font-family: Bold;
+}
+.optionHouse {
+    width: 100%;
+    height: 8%;
+    margin: 1% 0;
+    justify-content: space-between;
+
+   
+}
+.mainFormBtnHolder button{
+    padding: 0
+}
+.optionHouse input{
+    height: 20px; 
+    width: 20px;
+    margin: 5 ;
+    accent-color: var(--accent-color);
+}
+.optionHouse label{
+    width: 90%;
+    height: 100%;
+    padding: 0;
+    /* padding-top: 3%; */
+    text-align: left;
+    font-family: Bold;
+}
+
+.examTakenAlready h3{
+    margin:10% auto 0;
+    text-align: center;
+width:80%;
+}
+.examTakenAlready h4 {
+    margin: 5% auto 0;
+    width:80%;
+    text-align: center;
+}

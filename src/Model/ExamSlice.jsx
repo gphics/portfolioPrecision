@@ -1,6 +1,6 @@
 import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
 import shortUUID from "short-uuid";
-import { supabase } from "../Controller";
+import { showNotification, supabase } from "../Controller";
 import duration from 'dayjs/plugin/duration'
 import dayjs from 'dayjs'
 dayjs.extend(duration)
@@ -20,8 +20,7 @@ export const createExam = createAsyncThunk("createExam", async (_, thunkAPI) => 
     user.exams_id.unshift(exam_id)
     user.results_id.unshift(result_id)
 
-    // const { data, error } = await supabase.from("user")
-    //     .update(user).eq("user_id", creator)
+    
     const final = await Promise.allSettled([supabase.from("question")
         .insert([question]),
         await supabase.from("user")
@@ -33,14 +32,14 @@ export const createExam = createAsyncThunk("createExam", async (_, thunkAPI) => 
             .insert([results])
         
     ])
-    // console.log(data, error)
+    
 })
 
 
 export const getMyExam = createAsyncThunk("getMyExam", async (_, thunkAPI) => {
     const { data, error } = await supabase.from("exam").select().order("title")
     const user = thunkAPI.getState().userSlice.user
-    const mine = data.filter(elem => elem.creator === user.user_id)
+    const mine = data.filter(elem => elem.creator  === user.user_id || elem.participants.includes(user.user_id))
     
     return {mine, all: data}
 })
@@ -63,10 +62,11 @@ export const getCurrentExam = createAsyncThunk("getCurrentExam", async (examID, 
                 .eq("question_id", firstData.question_id)
                 .single()
             const queImg = []
-            thirdData.Test.forEach(elem => {
+            const {Test} = thirdData
+            Test.forEach(elem => {
                 if (elem.question_img_name !== '') queImg.push(elem.question_img_name)
             })
-            if(thirdData) return [firstData, secondData, queImg]
+            if(thirdData) return [{...firstData, Test}, secondData, queImg]
         }
     }
 })
@@ -144,7 +144,6 @@ export const deleteExam = createAsyncThunk("deleteExam", async (_, thunkAPI) => 
             queImg.map(async (elem) => {
                const {data, error} = await supabase.storage.from("question")
                     .remove([`folder/${elem}`])
-                console.log(data, error)
             })
         }
 
@@ -152,7 +151,85 @@ export const deleteExam = createAsyncThunk("deleteExam", async (_, thunkAPI) => 
     }
     
 })
+
+export const registerForExam = createAsyncThunk("registerForExam", async (_, thunkAPI) => {
+    const { Test, ...rest } = thunkAPI.getState().examSlice.currentExam[0]
+    const { user_id } = thunkAPI.getState().userSlice.user
+    const user = thunkAPI.getState().userSlice.user
+    const userExamsID = JSON.parse(JSON.stringify(user.exams_id))
+    userExamsID.push(rest.exam_id)
+    const participants = JSON.parse(JSON.stringify(rest.participants))
+    participants.push(user_id)
+  
+   
+    const { data, error } = await supabase.from("exam")
+        .update({ ...rest, participants })
+        .eq("exam_id", rest.exam_id)
+        .select()
+    .single()
+
+    if (data) {
+        const { data: secondData, error: secondError } = await supabase.from("question")
+            .select()
+            .eq("question_id", rest.question_id)
+            .single()
+        if (secondData) {
+            const { data: thirdData, error: thirdError } = await supabase.from("user")
+                .update({ ...user, exams_id: userExamsID })
+                .eq("user_id", user_id)
+                .select()
+                .single()
+            if (thirdData) {
+                const { Test } = secondData
+                return { ...data, Test }  
+            }
+           
+        }
+    }
+})
+
+export const submitExam = createAsyncThunk("submitExam", async (_, thunkAPI) => {
+    const {user: {user_id}} = thunkAPI.getState().userSlice
+    const { score, currentExam } = thunkAPI.getState().examSlice
+    const { result_id, taken_by, exam_id} = currentExam[0]
+    const took = JSON.parse(JSON.stringify(taken_by))
+    took.push(user_id)
+
+    const { Test, ...rest } = currentExam[0]
+    const {creator} = currentExam[0]
+    const examStuff = { ...rest, taken_by: took }
+    const resultStuff = { user_id, exam_id, score, creator }
+    
+    const { data, error } = await supabase.from("result")
+        .select()
+    .eq("result_id", result_id)
+        .single()
+    if (data) {
+        const { result } = data
+        const res = JSON.parse(JSON.stringify(result))
+        res.push(resultStuff)
+        const mainResultStufff = { ...data, result: res }
+        
+        const final = await Promise.allSettled([
+            await supabase.from("exam")
+                .update(examStuff)
+                .eq("exam_id", exam_id)
+                .select()
+                .single()
+            ,
+            await supabase.from("result")
+                .update(mainResultStufff)
+            .eq("result_id", result_id)
+                .select()
+                .single()
+            
+        ])
+
+        if(final) return final
+   }
+})
 const initialState = {
+    isPreview: false,
     myExamSearch: '',
     isLoading: false,
     isRedirect: false,
@@ -186,7 +263,8 @@ const initialState = {
     allExam: [],
     allExamCopy: [],
     currentExam: [],
-    queImg: []
+    queImg: [],
+    score: 0
 
 }
 const exam = createSlice({
@@ -250,7 +328,7 @@ const exam = createSlice({
             state.examCreate.Test[i][field] = value
         },
         changeIsRedirect: (state, action) => {
-             state.isRedirect = false
+            state.isRedirect = false
         },
         sortMyExam: (state, action) => {
             const { obj, value, type } = action.payload
@@ -273,13 +351,62 @@ const exam = createSlice({
                 state.myExam = obj
             }
         },
-        setDefault: (state, action)=>{
+        setDefault: (state, action) => {
             return {
-                ...state, myExam: [],
+                isPreview: false,
+                myExamSearch: '',
+                isLoading: false,
+                isRedirect: false,
+                examCreate: {
+                    exam_id: '',
+                    result_id: '',
+                    question_id: '',
+                    title: '',
+                    creator: '',
+                    participants: [],
+                    taken_by: [],
+                    description: '',
+                    exam_img_name: '',
+                    starting_date: '',
+                    ending_date: '',
+                    duration: '',
+                    is_available: false,
+                    Test: [{
+                        question_img_name: '',
+                        optionA: '',
+                        optionB: '',
+                        optionC: '',
+                        optionD: '',
+                        answer: '',
+                        question: ''
+                    }],
+                    result: []
+                },
+                myExam: [],
                 myExamCopy: [],
                 allExam: [],
                 allExamCopy: [],
-}
+                currentExam: [],
+                queImg: [],
+                score: 0
+
+            }
+        },
+        isExamNotLoading: (state, action) => {
+            state.isLoading = false
+        },
+        isExamLoading: (state, action) => {
+            state.isLoading = true
+        },
+        updateScore: (state, action) => {
+            const {question, value} = action.payload
+            state.currentExam[0].Test[question].score = value
+        
+        },
+        setTotalScore: (state, action) => {
+            state.score = action.payload
+        }, setIsPreview: (state, action) => {
+            state.isPreview = !state.isPreview
         }
     },
     extraReducers: (builder) => {
@@ -329,6 +456,7 @@ const exam = createSlice({
         }).addCase(getCurrentExam.fulfilled, (state, action) => {
             state.currentExam = action.payload.slice(0, 2)
             state.queImg = action.payload[2]
+            // state.score = state.currentExam.Test.length
             state.isLoading = false
         }).addCase(fetchUpdateExam.pending, (state, action) => {
             state.isLoading = true
@@ -381,9 +509,18 @@ const exam = createSlice({
             state.myExamCopy = []
             state.queImg = []
             state.isLoading = false
+        }).addCase(registerForExam.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(registerForExam.fulfilled, (state, action) => {
+            state.currentExam[0] = action.payload
+            state.isLoading = false
+        }).addCase(submitExam.pending, (state, action) => {
+            state.isLoading = true
+        }).addCase(submitExam.fulfilled, (state, action) => {
+            state.isLoading = false
         })
     }
 })
 
-export const {setDefault, IncreaseQuestion, sortMyExam,onRender, changeIsRedirect, DecreaseQuestion, changeInput, changeTest } = exam.actions
+export const {setDefault,setTotalScore,setIsPreview, updateScore, IncreaseQuestion, sortMyExam,onRender, changeIsRedirect, DecreaseQuestion, changeInput, changeTest , isExamLoading, isExamNotLoading} = exam.actions
 export const examSlice = exam.reducer

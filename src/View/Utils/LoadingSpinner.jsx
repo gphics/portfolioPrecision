@@ -9,6 +9,6 @@ function LoadingSpinner({customID}) {
     </section>
  
   )
-} 
+}  
 
 export default LoadingSpinner

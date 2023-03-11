@@ -113,6 +113,26 @@ const user = createSlice({
         },
         setIsChange: (state, action) => {
             state.isChange = false
+        }, setUserDefault: (state, action) => {
+            return {
+                ...state, isLoading: false,
+                isChange: false,
+                login: { email: '', password: '' }
+                ,user: {}, register: {
+                    user_id: '',
+                    fullname: '',
+                    email: '',
+                    password: '',
+                    username: '',
+                    role: 'tutor',
+                    location: '',
+                    exams_id: [],
+                    results_id: [],
+                    contact: "",
+                    user_img_name: '',
+                }
+            }
+            
         }
 
     },
@@ -187,5 +207,5 @@ const user = createSlice({
 
 
 })
-export const { changeInput, logOut, setIsLoading, setIsChange } = user.actions
+export const {setUserDefault, changeInput, logOut, setIsLoading, setIsChange } = user.actions
 export const { reducer: userSlice } = user

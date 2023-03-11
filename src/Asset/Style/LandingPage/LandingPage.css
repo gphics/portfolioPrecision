@@ -209,16 +209,18 @@
 .footerText {
     width: 48%;
     height: 100%;
+
 }
 
 .footerImage>img {
     width: 80%;
     height: 80%;
-    margin: 10%;
+    margin: 5% auto;
 }
 
 .footerText {
-    padding: 12% 0 10% 5%;
+    padding: 10% 0 0% 5%;
+       
 
 }
 

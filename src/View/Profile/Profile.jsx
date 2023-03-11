@@ -40,7 +40,7 @@ function Profil() {
         {profileContent.map((info, index) => {
           return <div className="infoField flexRow" key={index}>
             <h5 style={{textTransform:info.title === 'email' ? 'none' : 'capitalize'}}>{info.title}: </h5>
-            <h4 style={{textTransform:info.title === 'email' ? 'none' : 'capitalize'}}> {info.value} </h4>
+            <h6 style={{textTransform:info.title === 'email' ? 'none' : 'capitalize'}}> {info.value} </h6>
           </div>
   }) 
         }

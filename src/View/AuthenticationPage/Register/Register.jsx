@@ -5,7 +5,7 @@ import { RegisterControl } from '../../Utils'
 import { Link , useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { changeInput } from '../../../Model/userSlice'
+import { changeInput, setUserDefault } from '../../../Model/userSlice'
 import { contactInfo, personalInfo, fileObj } from './utils'
 import { supabase, showNotification } from '../../../Controller'
 import {Notification} from '../../Utils'
@@ -38,15 +38,15 @@ function Register({isChange}) {
   }
 
   function fileHandler(e) {
-    const name = e.target.name
+    const name = e.target.name 
     const data = e.target.files[0]
-    const value = windowLocation ? user_img_name : data.name
+    const value = windowLocation ? user_img_name :shortUUID.generate()+data.name
     const reader = new FileReader()
 
     reader.readAsArrayBuffer(data)
     reader.addEventListener("load", (e) => {
       const file = e.target.result
-      const obj = {value,file}
+      const obj = { value, file }
       setFileState(obj)
 
     })
@@ -57,6 +57,11 @@ function Register({isChange}) {
     
   }
 
+  useEffect(() => {
+    if (!windowLocation) {
+      dispatch(setUserDefault())
+    }
+  },[windowLocation])
 
   useEffect(() => {
     if (isChange) {
@@ -67,7 +72,10 @@ function Register({isChange}) {
 
   async function handleSubmit(e) {
     e.preventDefault()
-   
+    if (password.length < 8) {
+      showNotification("password less than eight")
+      return
+   }
     if (user_img_name.length <= 1 || fullname.length <= 1 || role.length <= 1 || password.length <= 1 || email.length <= 1 || location.length <= 1 || username.length <= 1 || contact.length <= 1) {
       showNotification("Input field cannot be empty")
       return
@@ -102,6 +110,7 @@ function Register({isChange}) {
       dispatch(setIsLoading())
       return;
     }
+    dispatch(setIsLoading())
     const file = uploadImage()
     if (file) {
       dispatch(registerUser())
@@ -120,7 +129,8 @@ function Register({isChange}) {
     const { data, error } = await supabase.storage
       .from("user")
       .upload('folder/' + value, file)
-    return data
+    console.log(data)
+    if(data) return data
 }
   
   return (

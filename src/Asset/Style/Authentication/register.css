@@ -180,6 +180,7 @@ option {
     color: var(--secondary-color);
     font-family: Bold;
     background-color: var(--primary-color);
+  
 }
 
 /* Media Query*/

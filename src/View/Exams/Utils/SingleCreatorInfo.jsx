@@ -4,24 +4,24 @@ export default function CreatorInf({ user_img_name, email, fullname, contact, us
         <img src={imgUrl} alt={fullname} />
         <div className="examCreatorRestInfo flexRow">
             <h4>fullname:</h4>
-            <h4> {fullname && fullname.length > 30 ? fullname.slice(0, 30) : fullname} </h4>
+            <h5> {fullname && fullname.length > 30 ? fullname.slice(0, 30) : fullname} </h5>
         </div>
 
         <div className="examCreatorRestInfo flexRow">
             <h4>username:</h4>
-            <h4> {username} </h4>
+            <h5> {username} </h5>
         </div>
         <div className="examCreatorRestInfo flexRow">
             <h4 style={{ textTransform: 'none' }}>email:</h4>
-            <h4 style={{ textTransform: 'none' }}> {email} </h4>
+            <h5 style={{ textTransform: 'none' }}> {email} </h5>
         </div>
         <div className="examCreatorRestInfo flexRow">
             <h4>contact:</h4>
-            <h4> 0{contact} </h4>
+            <h5> 0{contact} </h5>
         </div>
         <div className="examCreatorRestInfo flexRow">
             <h4>location:</h4>
-            <h4> {location} </h4>
+            <h5> {location} </h5>
         </div>
     </section>
 }

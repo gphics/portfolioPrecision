@@ -4,7 +4,7 @@ import { FaTimesCircle } from 'react-icons/fa'
 
 function Notification({customID}) {
   
-    return (
+    return ( 
         <div id={customID} className="Notification flexColumn hideForm">
            
             <h3 id='alert'></h3>
