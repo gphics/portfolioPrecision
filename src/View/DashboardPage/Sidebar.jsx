@@ -21,9 +21,7 @@ function Sidebar() {
         elem.classList.toggle("hideSidebar")
     }
 
-    useEffect(() => {
-        
-    }, [])
+
     return (
         <div id="sidebar" className='flexColumn hideSidebar'>
             <div className='flexRow sidebarHero'>

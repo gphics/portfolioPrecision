@@ -3,7 +3,6 @@ import Hero from '../../Asset/SVG/Footer_Hero.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getMyExam } from '../../Model/ExamSlice'
-import { refreshUser } from '../../Model/userSlice'
 function Dashboard() {
   const state = useSelector(state => state.userSlice.user)
   const role = state.role === 'tutor' ? true : false

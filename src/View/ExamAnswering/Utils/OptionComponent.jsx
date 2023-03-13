@@ -1,5 +1,5 @@
 import { useDispatch , useSelector} from "react-redux"
-
+import { updateScore } from "../../../Model/ExamSlice"
 export default function OptionComponent({ option, name, answer }) {
     const { isPreview } = useSelector(state => state.examSlice)
     const dispatch = useDispatch()

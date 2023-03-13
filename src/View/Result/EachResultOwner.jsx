@@ -20,9 +20,7 @@ function EachResultOwner() {
            setIsLoading(false)
        }
     }
-    useEffect(() => {
-        fetchUser()
-    },[])
+    
   return (
       <div id="myResult">
           {isLoading && <LoadingSpinner />}

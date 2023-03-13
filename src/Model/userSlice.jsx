@@ -200,6 +200,8 @@ const user = createSlice({
             const item = JSON.stringify(action.payload)
             localStorage.setItem("precision", item)
             
+        }).addCase(refreshUser.rejected, (state, action) => {
+            state.isLoading = false
         })
 
 

@@ -4,12 +4,14 @@ dayjs.extend(duration)
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { deleteExam, getCurrentExam, registerForExam, setIsPreview, setTotalScore} from '../../../Model/ExamSlice'
+import { deleteExam, getCurrentExam, registerForExam, setIsPreview, setTotalScore } from '../../../Model/ExamSlice'
 import { refreshUser } from '../../../Model/userSlice'
 
-export default function SingleExamInf({exam_id, starting_date, title, creator, description, ending_date, exam_img_name, participants, is_available, duration, taken_by }) {
+export default function SingleExamInf({ exam_id, starting_date, title, creator, description, ending_date, exam_img_name, participants, is_available, duration, taken_by }) {
     const imgUrl = `https://jcvvwzvbnanankfrxxzd.supabase.co/storage/v1/object/public/exam/folder/${exam_img_name}`
     const user = useSelector(state => state.userSlice.user)
+    const { role } = useSelector(state => state.userSlice.user)
+    const isTutor = role === 'tutor' ? true : false
     const state = useSelector(state => state.examSlice)
     const creatorState = creator === user.user_id ? true : false
     const [regState, setRegState] = useState(false)
@@ -19,11 +21,11 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
     const isExamEnd = presentDate > overDate ? true : false
     const isRegisterEnd = presentDate > beginDate
     const [takenState, setTakenState] = useState(false)
-    const showStartBtn =!isExamEnd && !creatorState && !takenState && regState && presentDate >= beginDate && presentDate <= overDate ? true : false
+    const showStartBtn = !isExamEnd && !creatorState && !takenState && regState && presentDate >= beginDate && presentDate <= overDate ? true : false
     const showTimer = !isExamEnd && !creatorState && !takenState && regState && presentDate < beginDate ? true : false
     // const startState = !creatorState && is_available && regState && !takenState && showStart ? true : false
     //const timerState = regState && !takenState && !creatorState && showTimer ? true : false
-    
+
     const [months, setMonths] = useState(0)
     const [days, setDays] = useState(0)
     const [hours, setHours] = useState(0)
@@ -31,14 +33,14 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
     const [seconds, setSeconds] = useState(0)
     const dispatch = useDispatch()
     const Navigate = useNavigate()
-    
-    
+
+
     function updateDuration() {
         setInterval(() => {
             const startDate = dayjs(starting_date)
             const now = dayjs()
-            const mid = dayjs.duration(startDate - now) 
-             
+            const mid = dayjs.duration(startDate - now)
+
             setMonths(mid.months())
             setDays(mid.days())
             setHours(mid.hours())
@@ -48,10 +50,9 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
     }
 
     useEffect(() => {
-        dispatch(refreshUser())
         dispatch(setTotalScore(0))
-    },[])
-    useEffect(() => { 
+    }, [])
+    useEffect(() => {
         if (state.currentExam[0]) {
             state.currentExam[0].participants.forEach(id => {
                 if (id === user.user_id) setRegState(true)
@@ -60,10 +61,10 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
             state.currentExam[0].taken_by.forEach(id => {
                 if (id === user.user_id) setTakenState(true)
             })
-      }
+        }
 
-        
-   
+
+
     }, [state.currentExam])
 
     useEffect(() => {
@@ -72,7 +73,7 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
     return <section id="singleExamInfo" className='flexColumn'>
         <img src={imgUrl} alt={title} />
         <div id="singleExamInfoIntro">
-            <h1> {title} </h1>
+            <h3> {title} </h3>
             <p> {description}{description && description.at(-1) === '.' ? null : '.'} </p>
         </div>
         <div className="restInfo flexRow">
@@ -109,9 +110,9 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
                 Navigate("/myexams")
             }}>delete</button>
         </div>}
-         
+
         {/* Registering for an exam */}
-        {!isRegisterEnd && !creatorState && !takenState && !regState && <div className='creatorStateBtns'>
+        {!isTutor && !isRegisterEnd && !creatorState && !takenState && !regState && <div className='creatorStateBtns'>
             <button className="moveTo" onClick={(e) => {
                 e.preventDefault()
                 dispatch(registerForExam())
@@ -130,7 +131,7 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
             </div>
         }
         {/* start Btn */}
-        {is_available &&  showStartBtn && !showTimer && <div className='creatorStateBtns'>
+        {is_available && showStartBtn && !showTimer && <div className='creatorStateBtns'>
             <button className="moveTo" onClick={(e) => {
                 e.preventDefault()
                 Navigate("/answerexam")
@@ -138,7 +139,7 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
         </div>
 
         }
-     {/* show timer */}
+        {/* show timer */}
         {showTimer &&
             <div className="durationTo">
                 <article className="flexColumn">
@@ -191,7 +192,7 @@ export default function SingleExamInf({exam_id, starting_date, title, creator, d
 
                 textAlign: 'center'
             }}>Exam registration ended already</h3></div>}
-        
-        
+
+
     </section>
 }

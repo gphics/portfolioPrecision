@@ -1,4 +1,4 @@
-
+import OptionComponent from "./OptionComponent"
 export default function EachQuestionComponent({ answer, question, question_img_name, optionA, optionB, optionC, optionD, num }) {
     const imgUrl = `https://jcvvwzvbnanankfrxxzd.supabase.co/storage/v1/object/public/question/folder/${question_img_name}`
 

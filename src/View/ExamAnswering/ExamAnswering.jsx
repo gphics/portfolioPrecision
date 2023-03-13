@@ -101,7 +101,8 @@ function ExamAnswerin() {
         }
     },[durationMinutes, durationSeconds])
     function handleSubmit(e) {
-       if(e) e.preventDefault()
+        if (e) e.preventDefault()
+        if (isPreview) return;
         dispatch(submitExam())
         Navigate("/myexams")
     }
