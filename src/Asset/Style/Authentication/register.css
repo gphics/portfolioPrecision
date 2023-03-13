@@ -1,11 +1,9 @@
 #register {
     justify-content: space-between;
-    width: 100vw;
     height: 100vh;
     flex: 1 1 auto;
-    max-width: 100%;
     min-width: 75%;
-
+    flex: 1 1 auto;
 }
 
 #regHero,
@@ -26,10 +24,6 @@
     height: 75%;
 
 }
-/* 
-.regFormHolder {
-    background-color: red;
-} */
 .regForm{
     width: 100%;
     height: 100%;

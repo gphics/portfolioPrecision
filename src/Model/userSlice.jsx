@@ -133,6 +133,10 @@ const user = createSlice({
                 }
             }
             
+        }, 
+        prefillForUpdate: (state, action) => {
+            const main = localStorage.getItem("precision")
+            state.register = JSON.parse(main)
         }
 
     },
@@ -209,5 +213,5 @@ const user = createSlice({
 
 
 })
-export const {setUserDefault, changeInput, logOut, setIsLoading, setIsChange } = user.actions
+export const {setUserDefault, changeInput, logOut, setIsLoading, setIsChange, prefillForUpdate } = user.actions
 export const { reducer: userSlice } = user

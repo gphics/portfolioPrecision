@@ -181,9 +181,6 @@ function Register({isChange}) {
 
           <button id="regBtn" className="moveTo hideForm"
             type="submit"> {windowLocation ? 'Update' : 'register'} </button>
-          {/* {!windowLocation && <p className="regNote">
-            Already a member ? <Link to="/landing/login" className="regLink">Login</Link>
-          </p>} */}
         </form>
       </div>
     </div>

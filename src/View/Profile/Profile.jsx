@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
-import { refreshUser, setIsChange} from '../../Model/userSlice'
+import { prefillForUpdate, refreshUser, setIsChange} from '../../Model/userSlice'
 
 
 
@@ -34,7 +34,7 @@ function Profil() {
       <h1>my profile</h1>
       <div className="profileImage flexColumn">
         <img src={imgUrl} alt="user image" />
-        <h5> joined on {joinedDate} </h5>
+        <h5 id="dateJoined"> joined on {joinedDate} </h5>
       </div>
       <div className="profileInfo flexColumn">
         {profileContent.map((info, index) => {
@@ -47,6 +47,7 @@ function Profil() {
       </div>
       <div className="profileUpdateSect">
         <button id="userUpdateBtn" onClick={(e) => {
+          dispatch(prefillForUpdate())
           Navigate("updateUser")
         }} className="moveTo">Update</button>
       </div>
