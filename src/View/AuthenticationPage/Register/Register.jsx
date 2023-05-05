@@ -2,16 +2,16 @@ import React, { useRef, useEffect, useState } from 'react'
 import { Input, LoadingSpinner } from '../../Utils'
 import Hero from '../../../Asset/SVG/Auth_Hero.svg'
 import { RegisterControl } from '../../Utils'
-import { Link , useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { changeInput, setUserDefault } from '../../../Model/userSlice'
 import { contactInfo, personalInfo, fileObj } from './utils'
 import { supabase, showNotification } from '../../../Controller'
-import {Notification} from '../../Utils'
+import { Notification } from '../../Utils'
 import shortUUID from 'short-uuid'
 import { registerUser, setIsLoading, updateUser } from '../../../Model/userSlice'
-function Register({isChange}) {
+function Register({ isChange }) {
 
   const Navigate = useNavigate()
   const dispatch = useDispatch()
@@ -24,9 +24,9 @@ function Register({isChange}) {
 
   const [fileState, setFileState] = useState(null)
 
-  const {user_img_name,username, fullname, role, contact, location, email, password} = state
+  const { user_img_name, username, fullname, role, contact, location, email, password } = state
 
-  
+
 
   function onChangeHandler(e) {
     const name = e.target.name
@@ -38,9 +38,9 @@ function Register({isChange}) {
   }
 
   function fileHandler(e) {
-    const name = e.target.name 
+    const name = e.target.name
     const data = e.target.files[0]
-    const value = windowLocation ? user_img_name :shortUUID.generate()+data.name
+    const value = windowLocation ? user_img_name : shortUUID.generate() + data.name
     const reader = new FileReader()
 
     reader.readAsArrayBuffer(data)
@@ -53,75 +53,79 @@ function Register({isChange}) {
 
     if (windowLocation) return;
     const act = 'register'
-    dispatch(changeInput({name, value, act}))
-    
+    dispatch(changeInput({ name, value, act }))
+
   }
 
   useEffect(() => {
     if (!windowLocation) {
       dispatch(setUserDefault())
     }
-  },[windowLocation])
+  }, [windowLocation])
 
   useEffect(() => {
     if (isChange) {
       Navigate("/profile")
-      return 
+      return
     }
-  },[realUser])
+  }, [realUser])
 
   async function handleSubmit(e) {
     e.preventDefault()
     if (password.length < 8) {
       showNotification("password less than eight")
       return
-   }
+    }
     if (user_img_name.length <= 1 || fullname.length <= 1 || role.length <= 1 || password.length <= 1 || email.length <= 1 || location.length <= 1 || username.length <= 1 || contact.length <= 1) {
       showNotification("Input field cannot be empty")
       return
     }
-// Update
+    // Update
     // 
     // 
     if (windowLocation) {
       dispatch(setIsLoading())
       if (fileState !== null) {
-        const file = uploadImage()
+        const file = await uploadImage()
+        console.log(file)
+        
         if (file) {
           dispatch(updateUser())
           return;
         }
-
       }
       dispatch(updateUser())
       return
     }
 
     // Register
-      // 
-      // 
+    // 
+    // 
     dispatch(setIsLoading())
     const { data, error } = await supabase.from('user')
       .select().eq('email', state.email).single()
-  
-    
-    if (data) {
+
+
+    if (data !== null && error ) {
       showNotification("user already exist")
       dispatch(setIsLoading())
       return;
     }
-    dispatch(setIsLoading())
-    const file = uploadImage()
+
+    const file = await uploadImage()
+ 
+    
     if (file) {
       dispatch(registerUser())
     }
+    
   }
 
   async function uploadImage() {
-    const {value, file} = fileState
-    
+    const { value, file } = fileState
+
     if (windowLocation) {
-      const {data, error}= await supabase.storage.from("user")
+      const { data, error } = await supabase.storage.from("user")
         .update('folder/' + value, file)
       console.log(data, error)
       return data
@@ -129,10 +133,9 @@ function Register({isChange}) {
     const { data, error } = await supabase.storage
       .from("user")
       .upload('folder/' + value, file)
-    console.log(data)
-    if(data) return data
-}
-  
+    if (data) return data
+  }
+
   return (
     <div id="register" className={windowLocation ? 'expand flexRow' : "flexRow"}>
       <Notification />
